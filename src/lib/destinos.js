@@ -1,4 +1,4 @@
-export const Destinos = [
+export const Items = [
     {
         id: 1,
         name: 'Paris',
