@@ -1,5 +1,10 @@
 import Link from 'next/link';
 import Style from './Home.module.css';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Portal Viagens | Página Inicial",
+}
 
 export default function Home() {
     return (
