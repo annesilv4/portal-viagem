@@ -1,36 +1,233 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portal Viagens
 
-## Getting Started
+Aplicação web desenvolvida com Next.js para exibir destinos de viagem em formato de catálogo.
 
-First, run the development server:
+## Sumário
+
+- [Visão geral](#visão-geral)
+- [Tecnologias utilizadas](#tecnologias-utilizadas)
+- [Pré-requisitos](#pré-requisitos)
+- [Como copiar o projeto para sua máquina](#como-copiar-o-projeto-para-sua-máquina)
+- [Como instalar e rodar](#como-instalar-e-rodar)
+- [Scripts disponíveis](#scripts-disponíveis)
+- [Rotas da aplicação](#rotas-da-aplicação)
+- [Estrutura de pastas](#estrutura-de-pastas)
+- [Como o projeto funciona](#como-o-projeto-funciona)
+- [Como adicionar novos destinos](#como-adicionar-novos-destinos)
+- [Build e execução em produção](#build-e-execução-em-produção)
+- [Solução de problemas comuns](#solução-de-problemas-comuns)
+
+## Visão geral
+
+O Portal Viagens tem uma página inicial com destaque visual e uma área de listagem de destinos.
+Cada destino possui uma página de detalhes acessada por rota dinâmica.
+
+Principais características:
+
+- Layout global com cabeçalho e rodapé reutilizáveis.
+- Catálogo de destinos com cartões.
+- Página de detalhes por destino usando parâmetro de rota.
+- Estilização com CSS Modules.
+- Estrutura organizada no padrão App Router do Next.js.
+
+## Tecnologias utilizadas
+
+- Next.js 16.2.4
+- React 19.2.4
+- TypeScript
+- CSS Modules
+- Tailwind CSS v4 (configurado no projeto)
+
+## Pré-requisitos
+
+Antes de começar, você precisa ter instalado:
+
+- Node.js (recomendado: versão LTS 20 ou superior)
+- npm (normalmente já vem com o Node.js)
+- Git (para clonar o repositório)
+
+Para conferir as versões:
+
+```bash
+node -v
+npm -v
+git --version
+```
+
+## Como copiar o projeto para sua máquina
+
+Você pode copiar o projeto de duas formas.
+
+### Opção 1: Clonar com Git (recomendado)
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd portal-viagens
+```
+
+### Opção 2: Baixar ZIP
+
+1. Baixe o arquivo ZIP do repositório na plataforma onde ele está hospedado.
+2. Extraia os arquivos em uma pasta da sua preferência.
+3. Abra um terminal dentro da pasta `portal-viagens`.
+
+## Como instalar e rodar
+
+Com a pasta do projeto aberta no terminal:
+
+1. Instale as dependências:
+
+```bash
+npm install
+```
+
+2. Inicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Acesse no navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts disponíveis
 
-## Learn More
+No projeto, os scripts principais são:
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev`: inicia em modo desenvolvimento.
+- `npm run build`: gera a build de produção.
+- `npm run start`: inicia a aplicação em modo produção (após build).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Rotas da aplicação
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/`: página inicial com banner e botão para destinos.
+- `/destinos`: lista de destinos em grid.
+- `/destinos/[id]`: página dinâmica de detalhes do destino.
 
-## Deploy on Vercel
+Exemplo:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/destinos/1`
+- `/destinos/7`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Estrutura de pastas
+
+```text
+portal-viagens/
+├─ public/                     # imagens estáticas
+├─ src/
+│  ├─ app/
+│  │  ├─ components/
+│  │  │  ├─ Card/
+│  │  │  ├─ Footer/
+│  │  │  ├─ Grid/
+│  │  │  ├─ Header/
+│  │  │  └─ Title/
+│  │  ├─ destinos/
+│  │  │  ├─ page.tsx
+│  │  │  └─ [id]/
+│  │  │     └─ page.tsx
+│  │  ├─ layout.tsx
+│  │  └─ page.tsx
+│  ├─ lib/
+│  │  └─ destinos.js           # fonte de dados dos destinos
+│  ├─ styles/
+│  │  └─ globals.css
+│  └─ types/
+│     └─ types.ts
+├─ next.config.ts
+├─ package.json
+└─ tsconfig.json
+```
+
+## Como o projeto funciona
+
+### 1) Layout global
+
+O arquivo `src/app/layout.tsx` define a estrutura compartilhada da aplicação (`html`, `body`, `Header`, conteúdo da rota e `Footer`).
+
+### 2) Página inicial
+
+Em `src/app/page.tsx`, a home exibe uma área de destaque e um botão de navegação para a lista de destinos.
+
+### 3) Lista de destinos
+
+Em `src/app/destinos/page.tsx`, os dados são carregados de `src/lib/destinos.js` e renderizados no componente `Grid`.
+
+### 4) Detalhes por rota dinâmica
+
+Em `src/app/destinos/[id]/page.tsx`, o parâmetro `id` da URL é usado para localizar o destino correspondente e renderizar seus detalhes.
+
+### 5) Tipagem
+
+A interface `Destino` fica em `src/types/types.ts` e é utilizada para tipar props e listas.
+
+## Como adicionar novos destinos
+
+Para incluir um novo destino:
+
+1. Abra `src/lib/destinos.js`.
+2. Adicione um novo objeto no array `Items` com:
+   - `id` (número único)
+   - `name`
+   - `description`
+   - `image` (caminho da imagem dentro de `public`)
+3. Coloque a imagem correspondente em `public/`.
+
+Exemplo:
+
+```js
+{
+	id: 15,
+	name: 'Salvador',
+	description: 'Centro histórico, praias e cultura baiana vibrante.',
+	image: '/salvador.jpg'
+}
+```
+
+## Build e execução em produção
+
+Para gerar e testar localmente em modo de produção:
+
+```bash
+npm run build
+npm run start
+```
+
+Por padrão, a aplicação em produção também sobe em `http://localhost:3000`.
+
+## Solução de problemas comuns
+
+### Porta 3000 já está em uso
+
+Use outra porta no desenvolvimento:
+
+```bash
+npm run dev -- -p 3001
+```
+
+### Erro após atualizar dependências
+
+Faça uma instalação limpa:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Problemas com cache do Next
+
+Limpe a pasta de build local:
+
+```bash
+rm -rf .next
+npm run dev
+```
+
+---
+
+## Autor
+
+Desenvolvido por Anne Carolayne - Aluno de Desenvolvimento Full Stack em Python
