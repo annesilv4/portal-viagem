@@ -1,7 +1,12 @@
 import { Items } from "@/lib/destinos";
 import Style from "./DetalheDestino.module.css";
+import type { Metadata } from "next";
 
-type DetalheDestinoProps = {
+export const metadata: Metadata = {
+    title: "Portal Viagens | Detalhe do Destino",
+};
+
+export type DetalheDestinoProps = {
     params: Promise<{ id: string }>;
 }
 
